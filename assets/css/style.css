@@ -1,0 +1,9 @@
+html, body {
+    background-size: 100%;
+    position: static;
+}
+
+#head {
+    color: white;
+    font-family: Inconsolata;
+}
