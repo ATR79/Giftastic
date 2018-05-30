@@ -119,7 +119,7 @@ $(document).ready(function () {
         console.log($(this).attr("data-value"))
         var emotion = $(this).attr("data-value")
         var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
-            emotion + "&api_key=dc6zaTOxFJmzC&limit=17";
+            emotion + "&api_key=dc6zaTOxFJmzC&limit=15";
 
         $.ajax({
             url: queryURL,
