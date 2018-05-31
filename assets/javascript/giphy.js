@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    //create emoji buttons
     var buttons = [{
             emotion: "sad",
             icon: "em-cry"
@@ -99,11 +100,19 @@ $(document).ready(function () {
             emotion: "weary",
             icon: "em-weary"
         },
+        {
+            emotion: "hungry",
+            icon: "em-drooling_face"
+        },
+        {
+            emotion: "relieved",
+            icon: "em-disappointed_relieved"
+        },
         /*{emotion: "random",
         text: "?"
         },*/
     ]
-
+    //loop length of buttons, add style and append
     for (i = 0; i < buttons.length; i++) {
         var button = $("<button>")
             .addClass("button-red")
@@ -111,34 +120,53 @@ $(document).ready(function () {
             .attr("data-value", buttons[i].emotion)
             .append(
                 $("<i>").addClass("em " + buttons[i].icon)
-                )
+            )
         button.appendTo("#button-div")
     }
-   
+    //on click function and add api key
     $(document).on("click", ".button-red", function () {
         console.log($(this).attr("data-value"))
         var emotion = $(this).attr("data-value")
         var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
             emotion + "&api_key=dc6zaTOxFJmzC&limit=15";
-
+        //introduce ajax url
         $.ajax({
             url: queryURL,
             method: "GET"
         }).then(function (response) {
             console.log(response);
             var results = response.data;
+            
+        //data-state, still, animate introduction
+            for (var i = 0; i < results.length; i++) {
+                var emotionDiv = $("<div>");
+                var p = $("<p>");
+                var emotionImage = $("<img>");
+                var animatedImage = results[i].images.fixed_height.url;
+                var staticImage = results[i].images.fixed_height_still.url;
+                emotionImage.attr("src", staticImage);
+                emotionImage.addClass("emotionGif");
+                emotionImage.attr("data-state", "still");
+                emotionImage.attr("data-still", staticImage);
+                emotionImage.attr("data-animate", animatedImage);
+                emotionDiv.append(p);
+                emotionDiv.append(emotionImage);
+                $("#return").prepend(emotionDiv);
+            }
+        //on click data state
+            $(document).on("click", ".emotionGif", stillPlayGifs);
         
-    for(var i = 0; i < results.length; i++){
-        var emotionDiv = $("<div>");
-        var p = $("<p>");
-        var emotionImage = $("<img>");
-        emotionImage.attr("src", results[i].images.fixed_height.url);
-        emotionDiv.append(p);
-        emotionDiv.append(emotionImage);
-        $("#return").prepend(emotionDiv);
-    }        
-        
-   
+            function stillPlayGifs() {
+                var state = $(this).attr("data-state");
+                if (state === "still") {
+                    $(this).attr("src", $(this).attr("data-animate"));
+                    $(this).attr("data-state", "animate");
+                } else {
+                    $(this).attr("src", $(this).attr("data-still"));
+                    $(this).attr("data-state", "still");
+                }
+            };
+
         })
     })
 })
