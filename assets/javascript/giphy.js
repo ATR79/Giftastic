@@ -21,10 +21,6 @@ $(document).ready(function () {
             icon: "em-grinning_face_with_one_large_and_one_small_eye"
         },
         {
-            emotion: "sick",
-            icon: "em-sneezing_face"
-        },
-        {
             emotion: "complacent",
             icon: "em-neutral_face"
         },
@@ -108,9 +104,9 @@ $(document).ready(function () {
             emotion: "relieved",
             icon: "em-disappointed_relieved"
         },
-        /*{emotion: "random",
-        text: "?"
-        },*/
+        {emotion: "random",
+        icon: "em-grey_question"
+        },
     ]
     //loop length of buttons, add style and append
     for (i = 0; i < buttons.length; i++) {
@@ -170,3 +166,5 @@ $(document).ready(function () {
         })
     })
 })
+
+//one thing I was not able to do was create a reset everytime a button is pressed
